@@ -14,34 +14,66 @@ namespace blogpessoal.Service.Implements
             _context = context;
         }
 
-        public Task<Postagem?> Create(Postagem postagem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(Postagem postagem)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<Postagem>> GetAll()
         {
             return await _context.Postagens.ToListAsync();
         }
 
-        public Task<Postagem?> GetById(long id)
+        public async Task<Postagem?> GetById(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                var Postagem = await _context.Postagens.FirstAsync(i => i.Id == id);
+
+                return Postagem;
+
+            }
+            catch
+            {
+                return null;
+            }
+
         }
 
-        public Task<IEnumerable<Postagem>> GetByTitulo(string titulo)
+        public async Task<IEnumerable<Postagem>> GetByTitulo(string titulo)
         {
-            throw new NotImplementedException();
+            var Postagem = await _context.Postagens
+                                .Where(p => p.Titulo.Contains(titulo))
+                                .ToListAsync();
+            
+            return Postagem;
         }
 
-        public Task<Postagem?> Update(Postagem postagem)
+        public async Task<Postagem?> Create(Postagem postagem)
         {
-            throw new NotImplementedException();
+            await _context.Postagens.AddAsync(postagem);
+            await _context.SaveChangesAsync();
+
+            return postagem;
         }
+
+        public async Task<Postagem?> Update(Postagem postagem)
+        {
+            var PostagemUpdate = await _context.Postagens.FindAsync(postagem.Id);
+
+            if (PostagemUpdate is null)
+                return null;
+
+            _context.Entry(PostagemUpdate).State = EntityState.Detached;
+            _context.Entry(postagem).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return postagem;
+            
+        }
+
+        public async Task Delete(Postagem postagem)
+        {
+            _context.Remove(postagem);
+            await _context.SaveChangesAsync();
+
+        }
+        
     }
 }

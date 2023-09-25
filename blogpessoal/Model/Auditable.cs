@@ -1,4 +1,6 @@
-﻿namespace blogpessoal.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace blogpessoal.Model
 {
     public class Auditable
     {
