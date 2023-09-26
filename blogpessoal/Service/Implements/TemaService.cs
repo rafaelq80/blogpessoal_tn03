@@ -16,7 +16,9 @@ namespace blogpessoal.Service.Implements
 
         public async Task<IEnumerable<Tema>> GetAll()
         {
-            return await _context.Temas.ToListAsync();
+            return await _context.Temas
+                .Include(t => t.Postagem)
+                .ToListAsync();
         }
 
         public async Task<Tema?> GetById(long id)
@@ -24,7 +26,9 @@ namespace blogpessoal.Service.Implements
             try
             {
 
-                var Tema = await _context.Temas.FirstAsync(i => i.Id == id);
+                var Tema = await _context.Temas
+                    .Include(t => t.Postagem)
+                    .FirstAsync(i => i.Id == id);
 
                 return Tema;
 
@@ -39,8 +43,9 @@ namespace blogpessoal.Service.Implements
         public async Task<IEnumerable<Tema>> GetByDescricao(string descricao)
         {
             var Tema = await _context.Temas
-                                .Where(t => t.Descricao.Contains(descricao))
-                                .ToListAsync();
+                            .Include(t => t.Postagem)
+                            .Where(t => t.Descricao.Contains(descricao))
+                            .ToListAsync();
             
             return Tema;
         }
