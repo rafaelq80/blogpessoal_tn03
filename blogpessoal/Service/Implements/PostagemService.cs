@@ -25,7 +25,7 @@ namespace blogpessoal.Service.Implements
             {
 
                 var Postagem = await _context.Postagens.FirstAsync(i => i.Id == id);
-
+        
                 return Postagem;
 
             }
