@@ -19,5 +19,7 @@ namespace blogpessoal.Model
 
         public virtual Tema? Tema { get; set; }
 
+        public virtual User? Usuario { get; set; }
+
     }
 }
