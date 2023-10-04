@@ -13,14 +13,14 @@ namespace blogpessoal.Data
             modelBuilder.Entity<Tema>().ToTable("tb_temas");
             modelBuilder.Entity<User>().ToTable("tb_usuarios");
 
-            _ = modelBuilder.Entity<Postagem>()
-                .HasOne(_ => _.Tema)
+            modelBuilder.Entity<Postagem>()
+                .HasOne(p => p.Tema)
                 .WithMany(t => t.Postagem)
                 .HasForeignKey("TemaId")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            _ = modelBuilder.Entity<Postagem>()
-                .HasOne(_ => _.Usuario)
+             modelBuilder.Entity<Postagem>()
+                .HasOne(p => p.Usuario)
                 .WithMany(u => u.Postagem)
                 .HasForeignKey("UsuarioId")
                 .OnDelete(DeleteBehavior.Cascade);

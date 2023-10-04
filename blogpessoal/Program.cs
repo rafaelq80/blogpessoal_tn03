@@ -26,6 +26,7 @@ namespace blogpessoal
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
             // Conexão com o Banco de dados
@@ -47,7 +48,6 @@ namespace blogpessoal
             builder.Services.AddScoped<ITemaService, TemaService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
-
 
             // Validação do Token
             builder.Services.AddAuthentication(options =>
