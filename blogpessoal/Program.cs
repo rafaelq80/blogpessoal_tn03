@@ -157,6 +157,7 @@ namespace blogpessoal
             // Configure the HTTP request pipeline.
             
                 app.UseSwagger();
+                app.UseSwaggerUI();
 
             // Swagger Como Página Inicial na Nuvem
 
@@ -168,8 +169,7 @@ namespace blogpessoal
                     options.RoutePrefix = string.Empty;
                 });
             }
-                
-          
+                    
 
             // Inicializa o CORS
             app.UseCors("MyPolicy");
