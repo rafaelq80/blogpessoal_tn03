@@ -43,9 +43,11 @@ namespace blogpessoal.Service.Implements
         public async Task<IEnumerable<Tema>> GetByDescricao(string descricao)
         {
             var Tema = await _context.Temas
-                            .Include(t => t.Postagem)
-                            .Where(t => t.Descricao.Contains(descricao))
-                            .ToListAsync();
+                .Include(t => t.Postagem)
+                .Where(T => T.Descricao.ToUpper()
+                     .Contains(descricao.ToUpper())
+                )
+                .ToListAsync();
             
             return Tema;
         }
