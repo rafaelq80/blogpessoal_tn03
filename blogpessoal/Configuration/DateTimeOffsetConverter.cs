@@ -7,7 +7,8 @@ namespace blogpessoal.Configuration
         public DateTimeOffsetConverter()
             : base(
                 d => d.ToUniversalTime(),
-                d => d.ToUniversalTime())
+                d => d.ToUniversalTime()
+            )
         { }
    
     }

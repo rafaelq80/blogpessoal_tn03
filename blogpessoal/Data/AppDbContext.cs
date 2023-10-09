@@ -65,6 +65,7 @@ namespace blogpessoal.Data
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        // Ajusta a Data para o formato UTC - Compatível com o Postgres
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder
