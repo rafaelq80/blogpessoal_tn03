@@ -33,8 +33,10 @@ namespace blogpessoal
                 });
 
             // Conexão com o Banco de dados
-            if (builder.Configuration["Enviroment:Start"] == "PROD")
+            if (builder.Configuration["Environment:Start"] == "PROD")
             {
+                // Conexão com o PostgresSQL - Nuvem
+
                 builder.Configuration
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("secrets.json");
@@ -48,6 +50,7 @@ namespace blogpessoal
             }
             else 
             {
+                // Conexão com o SQL Server - Localhost
                 var connectionString = builder.Configuration
                 .GetConnectionString("DefaultConnection");
 
@@ -124,7 +127,7 @@ namespace blogpessoal
 
                 });
 
-                // Adicionar a indicação de endpoint protegido
+                // Adicionar a indicação de endpoint protegido no Swagger
                 options.OperationFilter<AuthResponsesOperationFilter>();
 
             });
@@ -154,12 +157,12 @@ namespace blogpessoal
                 dbContext.Database.EnsureCreated();
             }
 
-            // Configure the HTTP request pipeline.
-            
+            // Swagger Como Página Inicial - Localhost
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
 
-            // Swagger Como Página Inicial na Nuvem
+            // Swagger Como Página Inicial - Nuvem
 
             if (app.Environment.IsProduction())
             {
@@ -174,10 +177,13 @@ namespace blogpessoal
             // Inicializa o CORS
             app.UseCors("MyPolicy");
 
+            // Autenticação do Usuário
             app.UseAuthentication();
 
+            // Autorização do Usuário
             app.UseAuthorization();
 
+            // Inicialização das Classes Controladoras
             app.MapControllers();
 
             app.Run();
