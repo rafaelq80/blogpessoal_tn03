@@ -149,12 +149,15 @@ namespace blogpessoal
 
             var app = builder.Build();
 
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             // Criar o Banco de dados e as Tabelas
 
-            using(var scope = app.Services.CreateAsyncScope())
+            using (var scope = app.Services.CreateAsyncScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 dbContext.Database.EnsureCreated();
+                
             }
 
             // Swagger Como Página Inicial - Localhost
