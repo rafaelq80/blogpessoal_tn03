@@ -47,7 +47,8 @@ namespace blogpessoal.Data
                 //Se uma propriedade da Classe Auditable estiver sendo criada. 
                 if (insertedEntry is Auditable auditableEntity)
                 {
-                    auditableEntity.Data = DateTimeOffset.Now;
+                    //auditableEntity.Data = DateTimeOffset.Now;
+                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3,0,0));
                 }
             }
 
@@ -60,20 +61,21 @@ namespace blogpessoal.Data
                 //Se uma propriedade da Classe Auditable estiver sendo atualizada.  
                 if (modifiedEntry is Auditable auditableEntity)
                 {
-                    auditableEntity.Data = DateTimeOffset.Now;
+                    //auditableEntity.Data = DateTimeOffset.Now;
+                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3, 0, 0));
                 }
             }
 
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        // Ajusta a Data para o formato UTC - Compatível com qualquer Banco de dados Relacional
-        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-        {
-            configurationBuilder
-                .Properties<DateTimeOffset>()
-                .HaveConversion<DateTimeOffsetConverter>();
-        }
+        //// Ajusta a Data para o formato UTC - Compatível com qualquer Banco de dados Relacional
+        //protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        //{
+        //    configurationBuilder
+        //        .Properties<DateTimeOffset>()
+        //        .HaveConversion<DateTimeOffsetConverter>();
+        //}
 
     }
 }
