@@ -48,7 +48,7 @@ namespace blogpessoal.Data
                 //Se uma propriedade da Classe Auditable estiver sendo criada. 
                 if (insertedEntry is Auditable auditableEntity)
                 {
-                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3,0,0)).ToLocalTime();
+                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3,0,0));
                 }
             }
 
@@ -61,7 +61,7 @@ namespace blogpessoal.Data
                 //Se uma propriedade da Classe Auditable estiver sendo atualizada.  
                 if (modifiedEntry is Auditable auditableEntity)
                 {
-                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3, 0, 0)).ToLocalTime();
+                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3, 0, 0));
                 }
             }
 
@@ -69,12 +69,12 @@ namespace blogpessoal.Data
         }
 
         // Ajusta a Data para o formato UTC - Compatível com qualquer Banco de dados Relacional
-        //protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-        //{
-        //    configurationBuilder
-        //        .Properties<DateTimeOffset>()
-        //        .HaveConversion<DateTimeOffsetConverter>();
-        //}
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder
+                .Properties<DateTimeOffset>()
+                .HaveConversion<DateTimeOffsetConverter>();
+        }
 
     }
 }
