@@ -1,6 +1,7 @@
 ﻿using blogpessoal.Configuration;
 using blogpessoal.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace blogpessoal.Data
 {
@@ -36,6 +37,8 @@ namespace blogpessoal.Data
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            var brasilia = TimeZoneInfo.FindSystemTimeZoneById("Brazil/East");
+
             var insertedEntries = this.ChangeTracker.Entries()
                                    .Where(x => x.State == EntityState.Added)
                                    .Select(x => x.Entity);
@@ -45,7 +48,7 @@ namespace blogpessoal.Data
                 //Se uma propriedade da Classe Auditable estiver sendo criada. 
                 if (insertedEntry is Auditable auditableEntity)
                 {
-                    auditableEntity.Data = DateTimeOffset.Now;
+                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3,0,0)).ToLocalTime();
                 }
             }
 
@@ -58,7 +61,7 @@ namespace blogpessoal.Data
                 //Se uma propriedade da Classe Auditable estiver sendo atualizada.  
                 if (modifiedEntry is Auditable auditableEntity)
                 {
-                    auditableEntity.Data = DateTimeOffset.Now;
+                    auditableEntity.Data = new DateTimeOffset(DateTime.Now, new TimeSpan(-3, 0, 0)).ToLocalTime();
                 }
             }
 
@@ -66,12 +69,12 @@ namespace blogpessoal.Data
         }
 
         // Ajusta a Data para o formato UTC - Compatível com qualquer Banco de dados Relacional
-        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-        {
-            configurationBuilder
-                .Properties<DateTimeOffset>()
-                .HaveConversion<DateTimeOffsetConverter>();
-        }
+        //protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        //{
+        //    configurationBuilder
+        //        .Properties<DateTimeOffset>()
+        //        .HaveConversion<DateTimeOffsetConverter>();
+        //}
 
     }
 }
